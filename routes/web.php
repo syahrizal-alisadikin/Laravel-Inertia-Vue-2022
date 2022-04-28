@@ -31,6 +31,10 @@ Route::prefix('apps')->group(function () {
         //route permissions
         Route::get('/permissions', \App\Http\Controllers\Apps\PermissionController::class)->name('apps.permissions.index')
             ->middleware('permission:permissions.index');
+
+        //route resource roles
+        Route::resource('/roles', \App\Http\Controllers\Apps\RoleController::class, ['as' => 'apps'])
+            ->middleware('permission:roles.index|roles.create|roles.edit|roles.delete');
     });
 });
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
