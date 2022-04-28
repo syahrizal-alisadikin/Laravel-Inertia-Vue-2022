@@ -38,7 +38,7 @@ body {
 }
 
 .active {
-    background: hsla(0, 0%, 100%, .05) !important;
+    background: #894b9d !important;
 }
 
 .rounded-3 {
