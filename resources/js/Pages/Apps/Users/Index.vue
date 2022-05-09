@@ -67,12 +67,13 @@
                       </td>
                       <td>
                         <Link
-                          href="#"
+                          :href="`/apps/users/${user.id}/edit`"
                           v-if="hasAnyPermission(['users.edit'])"
                           class="btn btn-success btn-sm me-2"
                           ><i class="fa fa-pencil-alt me-1"></i> EDIT</Link
                         >
                         <button
+                          @click.prevent="destroy(user.id)"
                           v-if="hasAnyPermission(['users.delete'])"
                           class="btn btn-danger btn-sm"
                         >
@@ -115,6 +116,8 @@ import { ref } from "vue";
 //import inertia adapter
 import { Inertia } from "@inertiajs/inertia";
 
+//import sweet alert2
+import Swal from "sweetalert2";
 export default {
   //layout
   layout: LayoutApp,
@@ -143,9 +146,35 @@ export default {
       });
     };
 
+    //method destroy
+    const destroy = (id) => {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Inertia.delete(`/apps/users/${id}`);
+
+          Swal.fire({
+            title: "Deleted!",
+            text: "User deleted successfully.",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        }
+      });
+    };
+
     //return
     return {
       search,
+      destroy,
       handleSearch,
     };
   },
