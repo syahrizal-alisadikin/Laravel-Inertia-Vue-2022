@@ -52,12 +52,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
         /**
          * validate
          */
         $this->validate($request, [
             'image'         => 'required|image|mimes:jpeg,jpg,png|max:2000',
-            'barcode'       => 'required|unique:products',
             'title'         => 'required',
             'description'   => 'required',
             'category_id'   => 'required',
@@ -73,7 +73,7 @@ class ProductController extends Controller
         //create product
         Product::create([
             'image'         => $image->hashName(),
-            'barcode'       => $request->barcode,
+            'barcode'       => $request->category_id . "-" . rand(1, 99999999),
             'title'         => $request->title,
             'description'   => $request->description,
             'category_id'   => $request->category_id,
@@ -193,5 +193,20 @@ class ProductController extends Controller
 
         //redirect
         return redirect()->route('apps.products.index');
+    }
+
+    public function Barcode()
+    {
+        $get_kode       = Product::orderBy('created_at', 'DESC')->limit(1)->first();
+        $q              = 0;
+
+        if ($get_kode) {
+            $barcode      = explode("-", $get_kode->barcode);
+            $kode       = end($barcode);
+            $q          = (int) $kode + 1;
+        } else {
+            $q          = 1;
+        }
+        return str_pad($q, 8, "0", STR_PAD_LEFT);
     }
 }

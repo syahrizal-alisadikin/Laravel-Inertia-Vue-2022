@@ -28,22 +28,7 @@
                   </div>
 
                   <div class="row">
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label class="fw-bold">Barcode</label>
-                        <input
-                          class="form-control"
-                          v-model="form.barcode"
-                          :class="{ 'is-invalid': errors.barcode }"
-                          type="text"
-                          placeholder="Barcode / Code Product"
-                        />
-                      </div>
-                      <div v-if="errors.barcode" class="alert alert-danger">
-                        {{ errors.barcode }}
-                      </div>
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                       <div class="mb-3">
                         <label class="fw-bold">Category</label>
                         <select
@@ -210,7 +195,6 @@ export default {
     //define form with reactive
     const form = reactive({
       image: "",
-      barcode: "",
       category_id: "",
       title: "",
       description: "",
@@ -227,7 +211,6 @@ export default {
         {
           //data
           image: form.image,
-          barcode: form.barcode,
           category_id: form.category_id,
           title: form.title,
           description: form.description,

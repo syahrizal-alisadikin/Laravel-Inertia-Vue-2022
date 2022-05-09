@@ -36,6 +36,7 @@
                           v-model="form.barcode"
                           :class="{ 'is-invalid': errors.barcode }"
                           type="text"
+                          readonly
                           placeholder="Barcode / Code Product"
                         />
                       </div>
