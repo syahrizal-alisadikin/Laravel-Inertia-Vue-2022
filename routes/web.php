@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Apps\CategoryController;
+use App\Http\Controllers\Apps\CustomerController;
 use App\Http\Controllers\Apps\DashboardController;
 use App\Http\Controllers\Apps\PermissionController;
+use App\Http\Controllers\Apps\ProductController;
 use App\Http\Controllers\Apps\RoleController;
 use App\Http\Controllers\Apps\UserController;
 use App\Http\Controllers\GoogleController;
@@ -44,12 +47,16 @@ Route::prefix('apps')->group(function () {
             ->middleware('permission:users.index|users.create|users.edit|users.delete');
 
         //route resource categories
-        Route::resource('/categories', \App\Http\Controllers\Apps\CategoryController::class, ['as' => 'apps'])
+        Route::resource('/categories', CategoryController::class, ['as' => 'apps'])
             ->middleware('permission:categories.index|categories.create|categories.edit|categories.delete');
 
         //route resource products
-        Route::resource('/products', \App\Http\Controllers\Apps\ProductController::class, ['as' => 'apps'])
+        Route::resource('/products', ProductController::class, ['as' => 'apps'])
             ->middleware('permission:products.index|products.create|products.edit|products.delete');
+
+        //route resource customers
+        Route::resource('/customers', CustomerController::class, ['as' => 'apps'])
+            ->middleware('permission:customers.index|customers.create|customers.edit|customers.delete');
     });
 });
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
