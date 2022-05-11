@@ -6,6 +6,7 @@ use App\Http\Controllers\Apps\DashboardController;
 use App\Http\Controllers\Apps\PermissionController;
 use App\Http\Controllers\Apps\ProductController;
 use App\Http\Controllers\Apps\RoleController;
+use App\Http\Controllers\Apps\TransactionController;
 use App\Http\Controllers\Apps\UserController;
 use App\Http\Controllers\GoogleController;
 use Illuminate\Support\Facades\Route;
@@ -57,6 +58,24 @@ Route::prefix('apps')->group(function () {
         //route resource customers
         Route::resource('/customers', CustomerController::class, ['as' => 'apps'])
             ->middleware('permission:customers.index|customers.create|customers.edit|customers.delete');
+
+        //route transaction
+        Route::get('/transactions', [TransactionController::class, 'index'])->name('apps.transactions.index');
+
+        //route transaction searchProduct
+        Route::post('/transactions/searchProduct', [ransactionController::class, 'searchProduct'])->name('apps.transactions.searchProduct');
+
+        //route transaction addToCart
+        Route::post('/transactions/addToCart', [TransactionController::class, 'addToCart'])->name('apps.transactions.addToCart');
+
+        //route transaction destroyCart
+        Route::post('/transactions/destroyCart', [TransactionController::class, 'destroyCart'])->name('apps.transactions.destroyCart');
+
+        //route transaction store
+        Route::post('/transactions/store', [TransactionController::class, 'store'])->name('apps.transactions.store');
+
+        //route transaction print
+        Route::get('/transactions/print', [TransactionController::class, 'print'])->name('apps.transactions.print');
     });
 });
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);

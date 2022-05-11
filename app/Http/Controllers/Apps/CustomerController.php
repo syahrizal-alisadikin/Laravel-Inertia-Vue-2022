@@ -51,13 +51,14 @@ class CustomerController extends Controller
         $this->validate($request, [
             'name'      => 'required',
             'no_telp'   => 'required|unique:customers',
+            'email'   => 'required|unique:customers',
             'address'   => 'required',
         ]);
-
         //create customer
         Customer::create([
             'name'      => $request->name,
             'no_telp'   => $request->no_telp,
+            'email'   => $request->email,
             'address'   => $request->address,
         ]);
 

@@ -47,16 +47,35 @@
                       </div>
                     </div>
                   </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">Address</label>
-                    <textarea
-                      class="form-control"
-                      v-model="form.address"
-                      :class="{ 'is-invalid': errors.address }"
-                      type="text"
-                      rows="4"
-                      placeholder="Address"
-                    ></textarea>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label class="fw-bold">Email</label>
+                        <input
+                          class="form-control"
+                          v-model="form.email"
+                          :class="{ 'is-invalid': errors.email }"
+                          type="email"
+                          placeholder="Masukan email"
+                        />
+                      </div>
+                      <div v-if="errors.email" class="alert alert-danger">
+                        {{ errors.email }}
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label class="fw-bold">Address</label>
+                        <textarea
+                          class="form-control"
+                          v-model="form.address"
+                          :class="{ 'is-invalid': errors.address }"
+                          type="text"
+                          rows="4"
+                          placeholder="Address"
+                        ></textarea>
+                      </div>
+                    </div>
                   </div>
                   <div v-if="errors.address" class="alert alert-danger">
                     {{ errors.address }}
@@ -125,6 +144,7 @@ export default {
       name: "",
       no_telp: "",
       address: "",
+      email: "",
     });
 
     //method "submit"
@@ -137,6 +157,7 @@ export default {
           name: form.name,
           no_telp: form.no_telp,
           address: form.address,
+          email: form.email,
         },
         {
           onSuccess: () => {
