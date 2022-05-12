@@ -26,33 +26,42 @@ class TransactionController extends Controller
         //get all customers
         $customers = Customer::latest()->get();
 
+        //get all product
+        $products = Product::latest()->get();
+
         return Inertia::render('Apps/Transactions/Index', [
             'carts'         => $carts,
             'carts_total'   => $carts->sum('price'),
-            'customers'     => $customers
+            'customers'     => $customers,
+            'products'      => $products,
         ]);
     }
 
-    public function searchProduct(Request $request)
-    {
-        //find product by barcode
-        $product = Product::where('barcode', $request->barcode)->first();
+    // public function searchProduct(Request $request)
+    // {
+    //     //find product by barcode
+    //     $product = Product::where('barcode', $request->barcode)->first();
 
-        if ($product) {
-            return response()->json([
-                'success' => true,
-                'data'    => $product
-            ]);
-        }
+    //     if ($product) {
+    //         return response()->json([
+    //             'success' => true,
+    //             'data'    => $product
+    //         ]);
+    //     }
 
-        return response()->json([
-            'success' => false,
-            'data'    => null
-        ]);
-    }
+    //     return response()->json([
+    //         'success' => false,
+    //         'data'    => null
+    //     ]);
+    // }
 
     public function addToCart(Request $request)
     {
+        $this->validate($request, [
+            'product_id'         => 'required',
+
+        ]);
+
         //check stock product
         if (Product::whereId($request->product_id)->first()->stock < $request->qty) {
 
@@ -119,9 +128,25 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate(
+            $request,
+            [
+                'customer_id'         => 'required',
+                'grand_total'         => 'required|min:2',
+
+            ],
+            [
+                'customer_id.required'         => 'Customer is required!.',
+                'grand_total.required'         => 'Grand Total is required!.',
+                'grand_total.min'              => 'Grand Total must be at least Rp. 2.000!.',
+            ]
+
+        );
+
         /**
          * algorithm generate no invoice
          */
+
         $length = 10;
         $random = '';
         for ($i = 0; $i < $length; $i++) {

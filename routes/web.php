@@ -5,7 +5,9 @@ use App\Http\Controllers\Apps\CustomerController;
 use App\Http\Controllers\Apps\DashboardController;
 use App\Http\Controllers\Apps\PermissionController;
 use App\Http\Controllers\Apps\ProductController;
+use App\Http\Controllers\Apps\ProfitController;
 use App\Http\Controllers\Apps\RoleController;
+use App\Http\Controllers\Apps\SaleController;
 use App\Http\Controllers\Apps\TransactionController;
 use App\Http\Controllers\Apps\UserController;
 use App\Http\Controllers\GoogleController;
@@ -63,7 +65,7 @@ Route::prefix('apps')->group(function () {
         Route::get('/transactions', [TransactionController::class, 'index'])->name('apps.transactions.index');
 
         //route transaction searchProduct
-        Route::post('/transactions/searchProduct', [ransactionController::class, 'searchProduct'])->name('apps.transactions.searchProduct');
+        Route::post('/transactions/searchProduct', [TransactionController::class, 'searchProduct'])->name('apps.transactions.searchProduct');
 
         //route transaction addToCart
         Route::post('/transactions/addToCart', [TransactionController::class, 'addToCart'])->name('apps.transactions.addToCart');
@@ -76,6 +78,28 @@ Route::prefix('apps')->group(function () {
 
         //route transaction print
         Route::get('/transactions/print', [TransactionController::class, 'print'])->name('apps.transactions.print');
+        //route sales index
+        Route::get('/sales', [SaleController::class, 'index'])->middleware('permission:sales.index')->name('apps.sales.index');
+
+        //route sales filter
+        Route::get('/sales/filter', [SaleController::class, 'filter'])->name('apps.sales.filter');
+
+        //route sales export excel
+        Route::get('/sales/export', [SaleController::class, 'export'])->name('apps.sales.export');
+        //route sales print pdf
+        Route::get('/sales/pdf', [SaleController::class, 'pdf'])->name('apps.sales.pdf');
+
+        //route profits index
+        Route::get('/profits', [ProfitController::class, 'index'])->middleware('permission:profits.index')->name('apps.profits.index');
+
+        //route profits filter
+        Route::get('/profits/filter', [ProfitController::class, 'filter'])->name('apps.profits.filter');
+
+        //route profits export
+        Route::get('/profits/export', [ProfitController::class, 'export'])->name('apps.profits.export');
+
+        //route profits pdf
+        Route::get('/profits/pdf', [ProfitController::class, 'pdf'])->name('apps.profits.pdf');
     });
 });
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
